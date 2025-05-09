@@ -37,7 +37,7 @@ export default function () {
 
     try {
       const stream = await sdk.value?.chat.completions.create({
-        model: 'deepseek-chat',
+        model: 'google/gemini-1.5-flash-preview',
         messages,
         temperature: 0.7,
         stream: true,

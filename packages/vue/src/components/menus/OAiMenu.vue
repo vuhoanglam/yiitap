@@ -106,6 +106,7 @@ const filterTerm = ref('')
 const output = ref('')
 const view = ref('main')
 const prompt = ref('')
+const currentBlockOption = ref<BlockOption | null>(null)
 const generating = ref(false)
 const isDebug = ref(false)
 
@@ -132,17 +133,75 @@ function getSelectedText() {
   return props.editor.state.doc.textBetween(from, to, '')
 }
 
+function getDocumentText() {
+  return props.editor.state.doc.textContent
+}
+
+function getTextBeforeSelection() {
+  const { from } = props.editor.state.selection
+  return props.editor.state.doc.textBetween(0, from, '')
+}
+
+function getTextAfterSelection() {
+  const { to } = props.editor.state.selection
+  const docSize = props.editor.state.doc.content.size
+  return props.editor.state.doc.textBetween(to, docSize, '')
+}
+
+function getTextAroundSelection(charsBefore = 500, charsAfter = 500) {
+  const { from, to } = props.editor.state.selection
+  const doc = props.editor.state.doc
+
+  const startPos = Math.max(0, from - charsBefore)
+  const endPos = Math.min(doc.content.size, to + charsAfter)
+
+  const textBefore = doc.textBetween(startPos, from, '\n')
+  const selectedText = doc.textBetween(from, to, '\n')
+  const textAfter = doc.textBetween(to, endPos, '\n')
+
+  let combined = ''
+  if (textBefore) combined += `Context Before:\n${textBefore}\n\n`
+  if (selectedText) combined += `Selected Text:\n${selectedText}\n\n`
+  if (textAfter) combined += `Context After:\n${textAfter}`
+  return combined.trim()
+}
+
 function onInputBlur() {
   setTimeout(() => {
     showPopover.value = true
   }, 0)
 }
 
-function onClick(item: Indexable, child?: Indexable) {
+function onClick(item: BlockOption, child?: BlockOption) {
+  currentBlockOption.value = item
   if (child) {
     showPopover.value = true
   }
-  prompt.value = item.options.prompt.replaceAll('[CONTENT]', getSelectedText())
+  let contextText = ''
+  const contextType = currentBlockOption.value?.contextType || 'selected'
+
+  switch (contextType) {
+    case 'selected':
+      contextText = getSelectedText()
+      break
+    case 'document':
+      contextText = getDocumentText()
+      break
+    case 'beforeSelection':
+      contextText = getTextBeforeSelection()
+      break
+    case 'afterSelection':
+      contextText = getTextAfterSelection()
+      break
+    case 'aroundSelection':
+      contextText = getTextAroundSelection(500, 500)
+      break;
+    default:
+      contextText = getSelectedText()
+  }
+
+  prompt.value = item.options.prompt.replaceAll('[CONTENT]', contextText)
+
   switch (item.value) {
     case 'translate':
       prompt.value = prompt.value.replace('[LANGUAGE]', child.value)
@@ -220,9 +279,7 @@ async function onAiGenerate() {
         output.value = md.render(aiMessage)
       }
     )
-    // messages.value.push({role: 'assistant', content: fullMessage})
   } catch (e) {
-    // Remove last use message if failed
     messages.value.pop()
     console.error(e)
     OToast.error(tr('ai.error'))
@@ -303,7 +360,6 @@ onMounted(() => {
         align-items: center;
         .o-btn {
           height: 30px;
-          //padding: 8px 12px;
           margin-left: 4px;
           background: var(--yii-active-bg-color);
         }

@@ -202,9 +202,11 @@ export const AskAiBlocks: BlockOption[] = [
     color: Color.purple,
     group: 'label.suggested',
     options: {
-      prompt: 'Improve writing of the following content: [CONTENT]',
+      prompt:
+        'Improve writing of the following content: [CONTENT]. Provide only the improved text, with no additional explanations or conversational phrases.',
     },
     tips: 'improve',
+    contextType: 'aroundSelection',
   },
   {
     label: 'ai.fix_spelling_grammar',
@@ -212,9 +214,11 @@ export const AskAiBlocks: BlockOption[] = [
     icon: 'spellcheck',
     color: Color.purple,
     options: {
-      prompt: 'Fix spelling and grammar of the following content: [CONTENT]',
+      prompt:
+        'Fix spelling and grammar of the following content: [CONTENT]. Provide only the corrected text, with no additional explanations or conversational phrases.',
     },
     tips: 'fix',
+    contextType: 'selected',
   },
   {
     label: 'ai.enrich_with_emoji',
@@ -222,9 +226,11 @@ export const AskAiBlocks: BlockOption[] = [
     icon: 'emoji_emotions',
     color: Color.purple,
     options: {
-      prompt: 'Enrich the following content with Emoji: [CONTENT]',
+      prompt:
+        'Enrich the following content with Emoji: [CONTENT]. Provide only the enriched text, with no additional explanations or conversational phrases.',
     },
     tips: 'emoji',
+    contextType: 'selected',
   },
   {
     label: 'ai.translate',
@@ -232,7 +238,8 @@ export const AskAiBlocks: BlockOption[] = [
     icon: 'translate',
     color: Color.purple,
     options: {
-      prompt: 'Translate the following content to [LANGUAGE]: [CONTENT]',
+      prompt:
+        'Translate the following content to [LANGUAGE]: [CONTENT]. Provide only the translated text, with no additional explanations or conversational phrases.',
     },
     children: [
       {
@@ -266,6 +273,7 @@ export const AskAiBlocks: BlockOption[] = [
         icon: 'language',
       },
     ] as BlockOption[],
+    contextType: 'selected',
   },
   {
     label: 'ai.make_longer',
@@ -273,10 +281,12 @@ export const AskAiBlocks: BlockOption[] = [
     icon: 'subject',
     color: Color.purple,
     options: {
-      prompt: 'Make following content longer: [CONTENT]',
+      prompt:
+        'Make following content longer: [CONTENT]. Provide only the longer text, with no additional explanations or conversational phrases.',
     },
     group: 'label.edit',
     tips: 'long',
+    contextType: 'aroundSelection',
   },
   {
     label: 'ai.make_shorter',
@@ -284,9 +294,11 @@ export const AskAiBlocks: BlockOption[] = [
     icon: 'short_text',
     color: Color.purple,
     options: {
-      prompt: 'Make following content shorter: [CONTENT]',
+      prompt:
+        'Make following content shorter: [CONTENT]. Provide only the shorter text, with no additional explanations or conversational phrases.',
     },
     tips: 'short',
+    contextType: 'aroundSelection',
   },
   {
     label: 'ai.change_tone',
@@ -294,7 +306,8 @@ export const AskAiBlocks: BlockOption[] = [
     icon: 'invert_colors',
     color: Color.purple,
     options: {
-      prompt: 'Change tone of the following content to [TONE]: [CONTENT]',
+      prompt:
+        'Change tone of the following content to [TONE]: [CONTENT]. Provide only the text with the changed tone, with no additional explanations or conversational phrases.',
     },
     children: [
       {
@@ -343,6 +356,7 @@ export const AskAiBlocks: BlockOption[] = [
         icon: 'invert_colors',
       },
     ] as BlockOption[],
+    contextType: 'aroundSelection',
   },
   // {
   //   label: 'ai.write',
@@ -361,10 +375,12 @@ export const AskAiBlocks: BlockOption[] = [
     icon: 'format_quote_open',
     color: Color.purple,
     options: {
-      prompt: 'Improve writing of the following content: [CONTENT]',
+      prompt:
+        'Explain the meaning and implications of the following content: [CONTENT]. Provide only the explanation, with no additional explanations or conversational phrases.',
     },
     tips: 'explain',
     group: 'label.think',
+    contextType: 'aroundSelection',
   },
 ]
 
@@ -375,7 +391,8 @@ export const AiBlocks: BlockOption[] = [
     icon: 'notes',
     color: Color.purple,
     options: {
-      prompt: 'Summarize the following content: [CONTENT]',
+      prompt:
+        'Summarize the following content: [CONTENT]. Provide only the summary, with no additional explanations or conversational phrases.',
     },
     group: 'label.suggested',
   },
@@ -385,7 +402,8 @@ export const AiBlocks: BlockOption[] = [
     icon: 'edit_note',
     color: Color.purple,
     options: {
-      prompt: 'Continue writing with the content: [CONTENT]',
+      prompt:
+        'Continue writing with the content: [CONTENT]. Provide only the continued text, with no additional explanations or conversational phrases.',
     },
   },
 ]

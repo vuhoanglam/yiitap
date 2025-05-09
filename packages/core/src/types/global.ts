@@ -27,6 +27,7 @@ declare global {
     options?: Indexable
     component?: string
     children?: BlockOption[]
+    contextType?: 'selected' | 'document' | 'beforeSelection' | 'afterSelection' | 'aroundSelection'
   }
 
   interface AiOption {
